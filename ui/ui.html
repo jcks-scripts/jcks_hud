@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status HUD</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: transparent;
+            font-family: Arial, sans-serif;
+        }
+
+        /* HUD */
+        .hud-item {
+            position: absolute;
+            bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-container {
+            width: 35px;
+            height: 35px;
+            background: #44444486;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-container i {
+            font-size: 15px;
+        }
+
+        .bar-container {
+            width: 100px;
+            height: 35px;
+            background: #44444486;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #000000;
+        }
+
+        .bar-container-text {
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            width: 100px;
+            height: 35px;
+            background: #44444486;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid #000000;
+            justify-content: center;
+            color: #ffffff;
+        }
+        .full-bar {
+            width: calc(100% - 10px);
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 0;
+            border-radius: 5px;
+            margin: 0 5px;
+        }
+
+        .status-bar {
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 1;
+            margin: 0 5px;
+        }
+
+        .health-bar { background: #ff4d4d; }
+        .armor-bar { background: #4d94ff; }
+        .stamina-bar { background: #4dff4d; }
+        .food-bar { background: #ffc94d; }
+        .water-bar { background: #4dd2ff; }
+        .fuel-bar { background: #57009e; }
+
+        .health-icon { color: #ff4d4d; }
+        .armor-icon { color: #4d94ff; }
+        .stamina-icon { color: #4dff4d; }
+        .food-icon { color: #ffc94d; }
+        .water-icon { color: #4dd2ff; }
+        .speedometer-icon { color: #ffffff; }
+        .street-icon { color: #ffffff; }
+        .fuel-icon { color: #57009e; }
+        .compass-icon { color: #00ff22; }
+        .seatbelt-icon { color: #ffee00; }
+
+        .full-bar.health { background: #b30000; }
+        .full-bar.armor { background: #003f6f; }
+        .full-bar.stamina { background: #007300; }
+        .full-bar.food { background: #b38f00; }
+        .full-bar.water { background: #007a99; }
+        .full-bar.fuel { background: #2f0055; }
+
+.bar-container.health-bar {
+    width: 100px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ff4d4d;
+    box-shadow: 0 0 10px 0 #ff4d4d;
+}
+
+.icon-container.health-bar {
+    width: 35px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ff4d4d;
+    box-shadow: 0 0 10px 0 #ff4d4d;
+}
+
+.bar-container.armor-bar {
+    width: 100px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #4d94ff;
+    box-shadow: 0 0 10px 0 #4d94ff;
+}
+
+.icon-container.armor-bar {
+    width: 35px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #4d94ff;
+    box-shadow: 0 0 10px 0 #4d94ff;
+}
+
+.bar-container.stamina-bar {
+    width: 100px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #4dff4d;
+    box-shadow: 0 0 10px 0 #4dff4d;
+}
+
+.icon-container.stamina-bar {
+    width: 35px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #4dff4d;
+    box-shadow: 0 0 10px 0 #4dff4d;
+}
+
+.bar-container.food-bar {
+    width: 100px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #ffc94d;
+    box-shadow: 0 0 10px 0 #ffc94d;
+}
+
+.icon-container.food-bar {
+    width: 35px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ffc94d;
+    box-shadow: 0 0 10px 0 #ffc94d;
+}
+
+.bar-container.water-bar {
+    width: 100px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    border: 2px solid #4dd2ff;
+    box-shadow: 0 0 10px 0 #4dd2ff;
+}
+
+.icon-container.water-bar {
+    width: 35px;
+    height: 35px;
+    background: #44444486;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #4dd2ff;
+    box-shadow: 0 0 10px 0 #4dd2ff;
+}
+    </style>
+</head>
+<body>
+    <!-- Health -->
+    <div id="health-item" class="hud-item" style="left: 1.5%; bottom: 10px;">
+        <div class="icon-container health-bar">
+            <i class="fa-solid fa-heart health-icon"></i>
+        </div>
+        <div class="bar-container health-bar">
+            <div class="full-bar health"></div>
+            <div id="health-bar" class="status-bar health-bar"></div>
+        </div>
+    </div>
+
+    <!-- Armor -->
+    <div id="armor-item" class="hud-item" style="left: 9%; bottom: 10px;">
+        <div class="icon-container armor-bar">
+            <i class="fa-solid fa-shield-alt armor-icon"></i>
+        </div>
+        <div class="bar-container armor-bar">
+            <div class="full-bar armor"></div>
+            <div id="armor-bar" class="status-bar armor-bar"></div>
+        </div>
+    </div>
+    
+    <!-- Stamina -->
+    <div id="stamina-item" class="hud-item" style="left: 16.5%; bottom: 10px;">
+        <div class="icon-container stamina-bar">
+            <i class="fa-solid fa-running stamina-icon"></i>
+        </div>
+        <div class="bar-container stamina-bar">
+            <div class="full-bar stamina"></div>
+            <div id="stamina-bar" class="status-bar stamina-bar"></div>
+        </div>
+    </div>
+    
+    <!-- Hunger -->
+    <div class="hud-item" id="food-item" style="left: 24%; bottom: 10px;">
+        <div class="icon-container food-bar">
+            <i class="fa-solid fa-drumstick-bite food-icon"></i>
+        </div>
+        <div class="bar-container food-bar">
+            <div class="full-bar food"></div>
+            <div id="food-bar" class="status-bar food-bar"></div>
+        </div>
+    </div>
+    
+    <!-- Thirst -->
+    <div class="hud-item" id="water-item" style="left: 31.5%; bottom: 10px">
+        <div class="icon-container water-bar">
+            <i class="fa-solid fa-tint water-icon"></i>
+        </div>
+        <div class="bar-container water-bar">
+            <div class="full-bar water"></div>
+            <div id="water-bar" class="status-bar water-bar"></div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            if (data.type === 'StatusHUD') {
+                const healthBar = document.getElementById('health-bar');
+                const armorBar = document.getElementById('armor-bar');
+                const staminaBar = document.getElementById('stamina-bar');
+                const healthIcon = document.querySelector('.health-icon');
+                
+                if (healthBar) healthBar.style.width = `${data.health}%`;
+                if (armorBar) armorBar.style.width = `${data.armor}%`;
+                if (staminaBar) staminaBar.style.width = `${data.stamina}%`;
+                
+                if (data.health === 0) {
+                    healthIcon.className = 'fa-solid fa-skull health-icon';
+                } else {
+                    healthIcon.className = 'fa-solid fa-heart health-icon';
+                }
+            } 
+            
+            if (data.type === 'NeedsHUD') {
+                const foodBar = document.getElementById('food-bar');
+                const waterBar = document.getElementById('water-bar');
+                if (foodBar) foodBar.style.width = `${data.food}%`;
+                if (waterBar) waterBar.style.width = `${data.water}%`;
+            }
+            
+            if (data.type === 'hideHUD') {
+                document.querySelectorAll('.hud-item').forEach(item => {
+                    item.style.display = 'none';
+                });
+            }
+            
+            if (data.type === 'showHUD') {
+                document.querySelectorAll('.hud-item').forEach(item => {
+                    item.style.display = 'flex';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
